@@ -7,9 +7,18 @@ $(function () {
    defaultStartDate.setDate(defaultStartDate.getDate() - 14);
 
    var defaultEndDate = new Date();
+   
 
-   $("input[name=StartDate]").datepicker().val(getUIDateString(defaultStartDate));
-   $("input[name=EndDate]").datepicker().val(getUIDateString(defaultEndDate));
+   
+   $("input[name=StartDate]").datepicker({ dateFormat: 'dd-mm-yy' }).val();
+   $("input[name=EndDate]").datepicker({ dateFormat: 'dd/mm/yyyy' }).val();
+
+
+   $("input[name=StartDate]").datepicker({ dateFormat: 'dd-mm-yy' }).val(defaultStartDate);
+   $("input[name=EndDate]").datepicker({ dateFormat: 'dd/mm/yyyy' }).val(defaultEndDate);
+
+   //$("input[name=StartDate]").datepicker().formatDate("dd/mm/yy", defaultStartDate)
+   //$("input[name=EndDate]").datepicker().formatDate("dd/mm/yy", defaultEndDate)
 
    $("#logout a").click(function () {
       Trello.deauthorize();
@@ -227,10 +236,6 @@ $(function () {
       }
 
       return result;
-   }
-
-   function getUIDateString(date) {
-      return padLeft(date.getMonth() + 1, 2, "0") + "/" + padLeft(date.getDate(), 2, "0") + "/" + date.getFullYear();
    }
 
    function getDateString(date) {
