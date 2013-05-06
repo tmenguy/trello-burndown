@@ -91,3 +91,18 @@ a:hover {
   #burndown-progress label {
     font-size: 0.9em;
     color: #555555; }
+    
+    
+#create-businessvalue-chart {
+  margin: 10px 5px 20px 5px; }
+  #create-businessvalue-chart button {
+    width: 100%; }
+
+#businessvalue-progress {
+  width: 50%;
+  margin: 0 auto; }
+  #businessvalue-progress label {
+    font-size: 0.9em;
+    color: #555555; }    
+    
+    
