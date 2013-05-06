@@ -166,13 +166,15 @@ $(function () {
    }
 
    function getCardPoints(card) {
-      var regex = /^(?:\()([\d]+)(?:\)).*/;
+      //var regex = /^(?:\()([\d]+)(?:\)).*/;
+      var regex = /.*\(.*BV\:\s*([0-9]+).*SP\:\s*([0-9]+).*\).*/;
       var target = card.name;
       var points = 1;
 
       if (target.match(regex)) {
          var result = regex.exec(target);
-         points = parseInt(result[1]);
+         points = parseInt(result[2]);
+
       }
 
       return points;
@@ -264,6 +266,10 @@ $(function () {
             _.find(actions, function(action) {
                return action.type == "createCard";
             });
+
+		if(createdStatus == undefined){
+			createdStatus = currentStatus	
+		}
 
          statusesByCard[card.id] = {
             card: card,
