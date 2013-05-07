@@ -9,16 +9,12 @@ $(function () {
    var defaultEndDate = new Date();
    
 
+   $("input[name=StartDate]").datepicker({ dateFormat: 'dd/mm/yy' }).val()   
+   $("input[name=StartDate]").datepicker().val(getUIDateString(defaultStartDate));
    
-   $("input[name=StartDate]").datepicker({ dateFormat: 'dd-mm-yy' }).val();
-   $("input[name=EndDate]").datepicker({ dateFormat: 'dd/mm/yyyy' }).val();
-
-
-   $("input[name=StartDate]").datepicker({ dateFormat: 'dd-mm-yy' }).val(defaultStartDate);
-   $("input[name=EndDate]").datepicker({ dateFormat: 'dd/mm/yyyy' }).val(defaultEndDate);
-
-   //$("input[name=StartDate]").datepicker().formatDate("dd/mm/yy", defaultStartDate)
-   //$("input[name=EndDate]").datepicker().formatDate("dd/mm/yy", defaultEndDate)
+   
+   $("input[name=EndDate]").datepicker({ dateFormat: 'dd/mm/yy' }).val()  
+   $("input[name=EndDate]").datepicker().val(getUIDateString(defaultEndDate));
 
    $("#logout a").click(function () {
       Trello.deauthorize();
@@ -74,6 +70,7 @@ $(function () {
 
    selectBoardView.on("selected", function (board) {
       selectListsModel.set("board", board);
+      
    });
 
    selectBoardView.render();
@@ -178,11 +175,18 @@ $(function () {
             var step = totalPoints / _.keys(dailyCounts).length;
             var current = totalPoints;
             var countdown = [];
+            
+            var totalEffort = parseInt($("input[name=AvailableEffort]").val())
+            var currentEffort = totalEffort
+            var stepEffort = totalEffort/_.keys(dailyCounts).length
+            var countDownEffort = [];
 
             for (var i = 0; i <= _.keys(dailyCounts).length; i++) {
                countdown.push(current);
+               countDownEffort.push(currentEffort)
 
                current -= step;
+               currentEffort-= stepEffort;
             }
 
             new Highcharts.Chart({
@@ -222,6 +226,14 @@ $(function () {
                   fillColor: "transparent",
                   lineWidth: 2,
 
+               }, {
+                  name:"Remaining Effort",
+                  type:'area',
+                  data:countDownEffort,
+                  color: "#00FF00",
+                  fillColor: "transparent",
+                  lineWidth: 2,
+
                }]
             });
          });
@@ -238,14 +250,18 @@ $(function () {
       return result;
    }
 
+   function getUIDateString(date) {
+      return padLeft(date.getDate(), 2, "0") + "/" + padLeft(date.getMonth() + 1, 2, "0") + "/" +  date.getFullYear();
+   }
+
    function getDateString(date) {
       return date.getFullYear() + "-" + padLeft(date.getMonth() + 1, 2, "0") + "-" + padLeft(date.getDate(), 2, "0");
    }
 
    function getDate(dateString) {
       var year = parseInt(dateString.substring(6, 10));
-      var month = parseInt(dateString.substring(0, 2));
-      var day = parseInt(dateString.substring(3, 5));
+      var month = parseInt(dateString.substring(3, 5));
+      var day = parseInt(dateString.substring(0, 2));
 
       return new Date(year, month - 1, day);
    }
@@ -280,8 +296,11 @@ $(function () {
       var statusesByCard = {};
       var dailyCounts = {};
 
-      var startDate = getDate($("input[name=StartDate]").val());
-      var endDate = getDate($("input[name=EndDate]").val());
+      //var startDate = getDate($("input[name=StartDate]").val());
+      //var endDate = getDate($("input[name=EndDate]").val());
+      
+      var startDate = $("input[name=StartDate]").datepicker('getDate')
+      var endDate = $("input[name=EndDate]").datepicker('getDate')
 
       var currentDate = new Date(startDate.getTime());
 

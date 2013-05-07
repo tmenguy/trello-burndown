@@ -23,17 +23,20 @@ a {
 a:hover {
   text-decoration: underline; }
 
-#deadlines #start-date, #deadlines #end-date {
+#deadlines #start-date, #deadlines #end-date, #deadlines #available-effort {
   float: left;
   width: 200px; }
-  #deadlines #start-date input, #deadlines #end-date input {
+  #deadlines #start-date input, #deadlines #end-date input, #deadlines #available-effort input {
     width: 190px; }
-  #deadlines #start-date label, #deadlines #end-date label {
+  #deadlines #start-date label, #deadlines #end-date label, #deadlines #available-effort label {
     width: 200px;
     color: #555555;
     font-size: 0.9em; }
 #deadlines #end-date {
   margin-left: 20px; }
+#deadlines #available-effort {
+  margin-left: 20px; }
+
 
 #boards, #lists {
   margin-top: 1em;
