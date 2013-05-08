@@ -25,7 +25,7 @@
                   target.deselect();
                });
 
-               that.trigger("selected", board.get("board").id);
+               that.trigger("selected", board.get("board").id, board.get("start"), board.get("end"), board.get("work"));
             });
 
             view.render();

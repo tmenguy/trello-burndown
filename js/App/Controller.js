@@ -68,8 +68,14 @@ $(function () {
       model:selectBoardModel
    });
 
-   selectBoardView.on("selected", function (board) {
+   selectBoardView.on("selected", function (board, start, end, work) {
       selectListsModel.set("board", board);
+      if start != undefined 
+      	$("input[name=StartDate]").datepicker().val(getUIDateString(start));
+      if end != undefined
+      	$("input[name=EndDate]").datepicker().val(getUIDateString(end));
+      if work != undefined
+      	$("input[name=AvailableEffort]").val(work)
       
    });
 
