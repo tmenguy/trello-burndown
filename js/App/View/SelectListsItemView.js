@@ -11,8 +11,17 @@
       },
 
       render: function () {
+      	 ds = ""
+      	 ts = ""
+      	 if(this.model.get("isTodoList"))
+      	 	ts = "checked"
+      	 if(this.model.get("isDoneList"))
+      	 	ds = "checked"
+      	 	      	
          this.$el.html(App.Templates.SelectListsItemTemplate({
-            List: this.model.get("list")
+            List: this.model.get("list"),
+            DoneStatus: ds,
+            TodoStatus: ts
          }));
       },
 
