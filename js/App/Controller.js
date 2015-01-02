@@ -274,16 +274,31 @@ $(function () {
 
    function getCardPoints(isBV, card) {
       //var regex = /^(?:\()([\d]+)(?:\)).*/;
-      var regex = /.*\(.*BV\:\s*([0-9]+).*SP\:\s*([0-9]+).*\).*/;
+      var regex = /.*\(.*BV\:\s*([0-9]+).*SP\:\s*([0-9]+\.?[0-9]*).*\).*/;
       var target = card.name;
-      var points = 1;
+      var points = 0;
 
       if (target.match(regex)) {
          var result = regex.exec(target);
          if(isBV){
          	points = parseInt(result[1]);
          }else{
-         	points = parseInt(result[2]);
+         	points = parseFloat(result[2]);
+         }
+
+      } else {
+         var regexRemaining = /.*\(\s*([0-9]+\.?[0-9]*)\s*\).*/;
+         var regexBV = /.*BV\:\s*([0-9]+).*/;
+         if (isBV){
+            if (target.match(regexBV)) {
+               var result = regexBV.exec(target);
+               points = parseInt(result[1]);
+            }
+         }else{
+             if (target.match(regexRemaining)) {
+                var result = regexRemaining.exec(target);
+               points = parseFloat(result[1]);
+            }
          }
 
       }

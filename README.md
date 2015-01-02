@@ -13,3 +13,17 @@ Trello Burndown Chart is a web-based application that allows you to render burnd
 How to install
 --------------
 Installation is easy because all you need is a place to save the files, and a browser to run them.  It uses client.js, a JavaScript library developed by the Trello team to manage OAuth authentication and Trello API calls.  Simply save the files to a directory, and open up index.html in a web browser to start building your Burndown Chart.
+
+How to use
+-----------
+
+The main idea is to update the remaining effort on a task/story (hence on a Trello card...) by adding this information in the card title inserting any of the following constructs
+
+* either `(BV:businessValuePoints/SP:remainingNumOfWorkUnit)`
+* either `(remainingNumOfWorkUnit)`
+* either `BV:businessValuePoints`
+
+The business value can also be set on stories for burnUp chart based on business value. The `remainingNumOfWorkUnit` can be a float, `businessValuePoints` has to be an integer. You can use whatever WorkUnit you see fit
+
+Optionally, to help board creation, add the following construct in your board name : `(start:dd/mm/yyyy end:dd/mm/yyyy WF:availableWorkForceInWorkUnit)`
+
