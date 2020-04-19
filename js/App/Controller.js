@@ -190,11 +190,10 @@ $(function () {
             for (var i = 0; i <= _.keys(dailyCounts).length; i++) {
                countdown.push(current);
                countDownEffort.push(currentEffort)
-
                current -= step;
                currentEffort-= stepEffort;
             }
-
+            
             new Highcharts.Chart({
                chart:{
                   renderTo: "burndown-chart",
@@ -363,8 +362,6 @@ $(function () {
             }
          });
 
-         console.log(dailyCounts);
-
          onComplete(dailyCounts);
       };
 
@@ -393,10 +390,10 @@ $(function () {
    function getCardStatus(statusesByCard, card, onComplete) {
       var url = "/cards/" + card.id + "/actions";
       var options = {
-         filter:"createCard,updateCard:idList",
+         filter:"createCard,copyCard,updateCard:idList",
          limit:1000
       };
-
+      
       Trello.get(url, options, function (actions) {
          var currentStatus =
             _.chain(actions)
@@ -409,7 +406,18 @@ $(function () {
                .last()
                .value();
 
-         var createdStatus =
+        var currentStatus2 =
+            _.chain(actions)
+               .filter(function (action) {
+                  return action.type == "copyCard";
+               })
+               .sortBy(function (action) {
+                  return action.date;
+               })
+               .last()
+               .value();
+ 
+        var createdStatus =
             _.find(actions, function(action) {
                return action.type == "createCard";
             });
@@ -417,6 +425,9 @@ $(function () {
 		if(createdStatus == undefined){
 			createdStatus = currentStatus	
 		}
+                if(createdStatus == undefined){
+                        createdStatus = currentStatus2
+                }
 
          statusesByCard[card.id] = {
             card: card,
